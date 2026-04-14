@@ -102,25 +102,27 @@ function App() {
   };
 
   return (
-    <div className="h-full w-full flex flex-col">
-      <header className="flex items-center justify-between px-6 py-4 border-b border-line">
-        <div className="flex items-baseline gap-3">
+    <div className="min-h-[100dvh] w-full flex flex-col md:h-[100dvh]">
+      <header className="flex items-center justify-between gap-3 px-4 md:px-6 py-3 md:py-4 border-b border-line">
+        <div className="flex items-baseline gap-3 min-w-0">
           <h1 className="text-lg font-semibold tracking-tight">tmux-grid</h1>
-          <span className="text-xs text-muted font-mono">
+          <span className="hidden sm:inline text-xs text-muted font-mono truncate">
             visual layout builder → .sh
           </span>
         </div>
-        <div className="flex items-center gap-2 text-xs text-muted">
-          <kbd className="px-1.5 py-0.5 rounded bg-panel border border-line font-mono">
-            click
-          </kbd>
-          <span>to select</span>
-          <span className="text-line">·</span>
-          <kbd className="px-1.5 py-0.5 rounded bg-panel border border-line font-mono">
-            drag divider
-          </kbd>
-          <span>to resize</span>
-          <span className="text-line mx-1">·</span>
+        <div className="flex items-center gap-2 text-xs text-muted shrink-0">
+          <div className="hidden md:flex items-center gap-2">
+            <kbd className="px-1.5 py-0.5 rounded bg-panel border border-line font-mono">
+              click
+            </kbd>
+            <span>to select</span>
+            <span className="text-line">·</span>
+            <kbd className="px-1.5 py-0.5 rounded bg-panel border border-line font-mono">
+              drag divider
+            </kbd>
+            <span>to resize</span>
+            <span className="text-line mx-1">·</span>
+          </div>
           <a
             href="https://x.com/HeyItzaMi"
             target="_blank"
@@ -133,8 +135,8 @@ function App() {
         </div>
       </header>
 
-      <main className="flex-1 flex min-h-0">
-        <section className="flex-1 flex flex-col min-w-0 border-r border-line">
+      <main className="flex flex-col md:flex-row md:flex-1 md:min-h-0">
+        <section className="flex flex-col min-w-0 border-b md:border-b-0 md:border-r border-line h-[55vh] min-h-[340px] md:h-auto md:min-h-0 md:flex-1">
           <Toolbar
             onSplitH={() => handleSplit("h")}
             onSplitV={() => handleSplit("v")}
@@ -144,7 +146,7 @@ function App() {
             leafCount={leafCount}
           />
 
-          <div className="flex-1 p-6 min-h-0">
+          <div className="flex-1 p-4 md:p-6 min-h-0">
             <div className="h-full w-full rounded-lg border border-line bg-panel overflow-hidden relative">
               <PaneView
                 pane={tree}
@@ -156,7 +158,7 @@ function App() {
           </div>
 
           {selectedLeaf && (
-            <div className="px-6 pb-5">
+            <div className="px-4 md:px-6 pb-4 md:pb-5">
               <label className="block text-[11px] uppercase tracking-wider text-muted mb-2">
                 Command for selected pane
               </label>
@@ -171,8 +173,8 @@ function App() {
           )}
         </section>
 
-        <aside className="w-[480px] flex flex-col min-h-0">
-          <div className="px-6 py-4 border-b border-line space-y-3">
+        <aside className="w-full md:w-[480px] flex flex-col md:min-h-0">
+          <div className="px-4 md:px-6 py-4 border-b border-line space-y-3">
             <div>
               <label className="block text-[11px] uppercase tracking-wider text-muted mb-1.5">
                 Session name
@@ -202,7 +204,7 @@ function App() {
             </div>
           </div>
 
-          <div className="px-6 pt-4 pb-3 border-b border-line">
+          <div className="px-4 md:px-6 pt-4 pb-3 border-b border-line">
             <div className="flex p-1 bg-ink rounded-md border border-line">
               <TabButton
                 active={sidebarTab === "script"}
@@ -220,8 +222,8 @@ function App() {
           </div>
 
           {sidebarTab === "script" ? (
-            <div className="flex-1 flex flex-col min-h-0">
-              <div className="flex items-center justify-end gap-2 px-6 py-3 border-b border-line">
+            <div className="flex flex-col md:flex-1 md:min-h-0">
+              <div className="flex items-center justify-end gap-2 px-4 md:px-6 py-3 border-b border-line">
                 <button
                   onClick={copy}
                   className="text-xs font-mono px-2.5 py-1 rounded border border-line bg-panel hover:border-accent/60 transition"
@@ -235,7 +237,7 @@ function App() {
                   download .sh
                 </button>
               </div>
-              <pre className="flex-1 overflow-auto px-6 py-4 font-mono text-[12.5px] leading-relaxed text-[#c8ccd6] whitespace-pre">
+              <pre className="max-h-[60vh] md:max-h-none md:flex-1 overflow-auto px-4 md:px-6 py-4 font-mono text-[12.5px] leading-relaxed text-[#c8ccd6] whitespace-pre">
                 {script}
               </pre>
             </div>
@@ -263,23 +265,23 @@ function Toolbar(props: {
   leafCount: number;
 }) {
   return (
-    <div className="flex items-center gap-2 px-6 py-3 border-b border-line">
+    <div className="grid grid-cols-2 gap-2 md:flex md:items-center md:gap-2 px-4 md:px-6 py-3 border-b border-line">
       <button
         onClick={props.onSplitH}
-        className="group flex items-center gap-2 text-sm px-3 py-1.5 rounded-md border border-line bg-panel hover:border-accent/60 transition"
+        className="group flex items-center justify-center md:justify-start gap-2 text-sm px-3 py-1.5 rounded-md border border-line bg-panel hover:border-accent/60 transition"
       >
         <SplitHIcon />
         Split right
       </button>
       <button
         onClick={props.onSplitV}
-        className="group flex items-center gap-2 text-sm px-3 py-1.5 rounded-md border border-line bg-panel hover:border-accent/60 transition"
+        className="group flex items-center justify-center md:justify-start gap-2 text-sm px-3 py-1.5 rounded-md border border-line bg-panel hover:border-accent/60 transition"
       >
         <SplitVIcon />
         Split down
       </button>
-      <div className="flex-1" />
-      <span className="text-xs text-muted font-mono">
+      <div className="hidden md:block flex-1" />
+      <span className="hidden md:inline text-xs text-muted font-mono">
         {props.leafCount} pane{props.leafCount === 1 ? "" : "s"}
       </span>
       <button
@@ -379,8 +381,8 @@ function HowToUse(props: {
       .cmd;
 
   return (
-    <div className="flex-1 overflow-auto">
-      <div className="px-6 py-5 text-[13px] leading-relaxed text-[#b8bcc7] space-y-4">
+    <div className="md:flex-1 md:overflow-auto max-h-[65vh] md:max-h-none overflow-auto">
+      <div className="px-4 md:px-6 py-5 text-[13px] leading-relaxed text-[#b8bcc7] space-y-4">
           <Step n={1} title="Install tmux (once)">
             <Code>{installCmd}</Code>
             <p className="text-muted text-[12px] mt-1.5">
